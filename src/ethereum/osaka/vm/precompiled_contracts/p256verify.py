@@ -67,13 +67,13 @@ def p256verify(evm: Evm) -> None:
     if public_key_y < U256(0) or public_key_y >= SECP256R1P:
         return
 
+    # Point should not be at infinity (represented as (0, 0))
+    if public_key_x == U256(0) and public_key_y == U256(0):
+        return
+
     # Point validity: The point (qx, qy) MUST satisfy the curve equation
     # qy^2 ≡ qx^3 + a*qx + b (mod p)
     if not is_on_curve_secp256r1(public_key_x, public_key_y):
-        return
-
-    # Point should not be at infinity (represented as (0, 0))
-    if public_key_x == U256(0) and public_key_y == U256(0):
         return
 
     try:
