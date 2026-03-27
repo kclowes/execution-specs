@@ -27,6 +27,7 @@ from execution_testing import (
     Storage,
     Transaction,
 )
+from execution_testing.checklists import EIPChecklist
 
 from .spec import ref_spec_8037
 
@@ -34,6 +35,7 @@ REFERENCE_SPEC_GIT_PATH = ref_spec_8037.git_path
 REFERENCE_SPEC_VERSION = ref_spec_8037.version
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_exact_coinbase_fee_simple_sstore(
     blockchain_test: BlockchainTestFiller,
@@ -106,6 +108,7 @@ def test_exact_coinbase_fee_simple_sstore(
     blockchain_test(pre=pre, blocks=blocks, post=post)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_multi_block_mixed_state_operations(
     blockchain_test: BlockchainTestFiller,
@@ -221,6 +224,7 @@ def test_multi_block_mixed_state_operations(
     blockchain_test(pre=pre, blocks=blocks, post=post)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_multi_block_observed_coinbase_balance(
     blockchain_test: BlockchainTestFiller,

@@ -13,6 +13,7 @@ from execution_testing import (
     Storage,
     Transaction,
 )
+from execution_testing.checklists import EIPChecklist
 
 from .spec import ref_spec_8037
 
@@ -22,6 +23,7 @@ REFERENCE_SPEC_VERSION = ref_spec_8037.version
 pytestmark = [pytest.mark.valid_at("Amsterdam"), pytest.mark.mainnet]
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 def test_sstore_zero_to_nonzero(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -45,6 +47,7 @@ def test_sstore_zero_to_nonzero(
     state_test(pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 def test_create_charges_state_gas(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -80,6 +83,7 @@ def test_create_charges_state_gas(
     state_test(pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 def test_create_tx_deploys_contract(
     state_test: StateTestFiller,
     pre: Alloc,

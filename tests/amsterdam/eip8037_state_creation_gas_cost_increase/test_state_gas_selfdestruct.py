@@ -19,6 +19,7 @@ from execution_testing import (
     StateTestFiller,
     Transaction,
 )
+from execution_testing.checklists import EIPChecklist
 
 from .spec import ref_spec_8037
 
@@ -26,6 +27,7 @@ REFERENCE_SPEC_GIT_PATH = ref_spec_8037.git_path
 REFERENCE_SPEC_VERSION = ref_spec_8037.version
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_selfdestruct_new_beneficiary_charges_state_gas(
     state_test: StateTestFiller,
@@ -62,6 +64,7 @@ def test_selfdestruct_new_beneficiary_charges_state_gas(
     state_test(env=env, pre=pre, post={}, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_selfdestruct_existing_beneficiary_no_state_gas(
     state_test: StateTestFiller,
@@ -92,6 +95,7 @@ def test_selfdestruct_existing_beneficiary_no_state_gas(
     state_test(pre=pre, post={}, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_selfdestruct_zero_balance_no_state_gas(
     state_test: StateTestFiller,
@@ -124,6 +128,7 @@ def test_selfdestruct_zero_balance_no_state_gas(
     state_test(pre=pre, post={}, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_selfdestruct_state_gas_from_reservoir(
     state_test: StateTestFiller,
@@ -158,6 +163,7 @@ def test_selfdestruct_state_gas_from_reservoir(
     state_test(env=env, pre=pre, post={}, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_selfdestruct_to_self_in_create_tx(
     state_test: StateTestFiller,

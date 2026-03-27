@@ -26,6 +26,7 @@ from execution_testing import (
     Transaction,
     TransactionException,
 )
+from execution_testing.checklists import EIPChecklist
 
 from .spec import ref_spec_8037
 
@@ -40,6 +41,7 @@ REFERENCE_SPEC_VERSION = ref_spec_8037.version
         pytest.param(3, id="three_auths"),
     ],
 )
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_authorization_state_gas_scaling(
     state_test: StateTestFiller,
@@ -85,6 +87,7 @@ def test_authorization_state_gas_scaling(
     state_test(env=env, pre=pre, post={}, tx=tx)
 
 
+@EIPChecklist.GasRefundsChanges.Test.RefundCalculation()
 @pytest.mark.valid_from("Amsterdam")
 def test_existing_account_refund(
     state_test: StateTestFiller,
@@ -129,6 +132,7 @@ def test_existing_account_refund(
     state_test(env=env, pre=pre, post={}, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_mixed_new_and_existing_auths(
     state_test: StateTestFiller,
@@ -190,6 +194,7 @@ def test_mixed_new_and_existing_auths(
     state_test(env=env, pre=pre, post={}, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_authorization_with_sstore(
     state_test: StateTestFiller,
@@ -237,6 +242,7 @@ def test_authorization_with_sstore(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasRefundsChanges.Test.RefundCalculation()
 @pytest.mark.valid_from("Amsterdam")
 def test_existing_account_refund_enables_sstore(
     state_test: StateTestFiller,
@@ -288,6 +294,7 @@ def test_existing_account_refund_enables_sstore(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_auth_refund_block_gas_accounting(
     blockchain_test: BlockchainTestFiller,
@@ -333,6 +340,7 @@ def test_auth_refund_block_gas_accounting(
     )
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_invalid_nonce_auth_still_charges_intrinsic_state_gas(
     state_test: StateTestFiller,
@@ -375,6 +383,7 @@ def test_invalid_nonce_auth_still_charges_intrinsic_state_gas(
     state_test(env=env, pre=pre, post={}, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_invalid_chain_id_auth_still_charges_intrinsic_state_gas(
     state_test: StateTestFiller,
@@ -417,6 +426,7 @@ def test_invalid_chain_id_auth_still_charges_intrinsic_state_gas(
     state_test(env=env, pre=pre, post={}, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_self_sponsored_authorization(
     state_test: StateTestFiller,
@@ -464,6 +474,7 @@ def test_self_sponsored_authorization(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_duplicate_signer_authorizations(
     state_test: StateTestFiller,
@@ -515,6 +526,7 @@ def test_duplicate_signer_authorizations(
     state_test(env=env, pre=pre, post={}, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_auth_with_calldata_and_access_list(
     state_test: StateTestFiller,
@@ -564,6 +576,7 @@ def test_auth_with_calldata_and_access_list(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasRefundsChanges.Test.RefundCalculation()
 @pytest.mark.valid_from("Amsterdam")
 def test_re_authorization_existing_delegation(
     state_test: StateTestFiller,
@@ -623,6 +636,7 @@ def test_re_authorization_existing_delegation(
         pytest.param(1, 2, id="one_valid_two_invalid"),
     ],
 )
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_mixed_valid_and_invalid_auths(
     state_test: StateTestFiller,
@@ -684,6 +698,7 @@ def test_mixed_valid_and_invalid_auths(
     state_test(env=env, pre=pre, post={}, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_many_authorizations_state_gas(
     state_test: StateTestFiller,
@@ -729,6 +744,7 @@ def test_many_authorizations_state_gas(
     state_test(env=env, pre=pre, post={}, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_auth_with_multiple_sstores(
     state_test: StateTestFiller,
@@ -791,6 +807,7 @@ def test_auth_with_multiple_sstores(
         ),
     ],
 )
+@EIPChecklist.GasCostChanges.Test.OutOfGas()
 @pytest.mark.valid_from("Amsterdam")
 def test_authorization_exact_state_gas_boundary(
     blockchain_test: BlockchainTestFiller,
@@ -848,6 +865,7 @@ def test_authorization_exact_state_gas_boundary(
     )
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_authorization_to_precompile_address(
     state_test: StateTestFiller,
@@ -892,6 +910,7 @@ def test_authorization_to_precompile_address(
     state_test(env=env, pre=pre, post={}, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_multi_tx_block_auth_refund_and_sstore(
     blockchain_test: BlockchainTestFiller,
@@ -954,6 +973,7 @@ def test_multi_tx_block_auth_refund_and_sstore(
     )
 
 
+@EIPChecklist.GasRefundsChanges.Test.RefundCalculation()
 @pytest.mark.valid_from("Amsterdam")
 def test_auth_refund_bypasses_one_fifth_cap(
     state_test: StateTestFiller,
@@ -1022,3 +1042,151 @@ def test_auth_refund_bypasses_one_fifth_cap(
 
     post = {contract: Account(storage=storage)}
     state_test(env=env, pre=pre, post=post, tx=tx)
+
+
+@EIPChecklist.GasRefundsChanges.Test.ExceptionalAbort.NonRevertable.Revert()
+@pytest.mark.valid_from("Amsterdam")
+def test_auth_refund_persists_on_top_frame_revert(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+) -> None:
+    """
+    Test auth existing-account refund persists when top frame REVERTs.
+
+    Authorization existing-account refund is transaction-scoped: it
+    reduces intrinsic_state_gas before execution begins. When the
+    top-level call frame REVERTs, the auth refund is still reflected
+    in gas accounting. The block includes the transaction with correct
+    gas_used.
+    """
+    gas_limit_cap = fork.transaction_gas_limit_cap()
+    assert gas_limit_cap is not None
+    auth_state_gas = fork.transaction_intrinsic_state_gas(
+        authorization_count=1,
+    )
+
+    # Contract REVERTs at top level
+    contract = pre.deploy_contract(code=Op.REVERT(0, 0))
+
+    # Existing signer — gets new-account state gas refunded
+    signer = pre.fund_eoa()
+    authorization_list = [
+        AuthorizationTuple(
+            address=contract,
+            nonce=0,
+            signer=signer,
+        ),
+    ]
+
+    sender = pre.fund_eoa()
+    tx = Transaction(
+        to=contract,
+        gas_limit=gas_limit_cap + auth_state_gas,
+        authorization_list=authorization_list,
+        sender=sender,
+    )
+
+    blockchain_test(
+        pre=pre,
+        blocks=[Block(txs=[tx])],
+        post={},
+    )
+
+
+@EIPChecklist.GasRefundsChanges.Test.ExceptionalAbort.NonRevertable.OutOfGas()
+@pytest.mark.valid_from("Amsterdam")
+def test_auth_refund_persists_on_top_frame_oog(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+) -> None:
+    """
+    Test auth existing-account refund persists when top frame runs OOG.
+
+    Authorization existing-account refund is transaction-scoped: it
+    reduces intrinsic_state_gas before execution begins. When the
+    top-level call frame runs out of gas, the auth refund was already
+    applied and is correctly reflected in receipt gas accounting.
+    """
+    gas_limit_cap = fork.transaction_gas_limit_cap()
+    assert gas_limit_cap is not None
+    auth_state_gas = fork.transaction_intrinsic_state_gas(
+        authorization_count=1,
+    )
+
+    # Contract OOGs via memory expansion to ~4 GB
+    contract = pre.deploy_contract(code=Op.MSTORE(0xFFFFFFFF, 0))
+
+    # Existing signer — gets new-account state gas refunded
+    signer = pre.fund_eoa()
+    authorization_list = [
+        AuthorizationTuple(
+            address=contract,
+            nonce=0,
+            signer=signer,
+        ),
+    ]
+
+    sender = pre.fund_eoa()
+    tx = Transaction(
+        to=contract,
+        gas_limit=gas_limit_cap + auth_state_gas,
+        authorization_list=authorization_list,
+        sender=sender,
+    )
+
+    blockchain_test(
+        pre=pre,
+        blocks=[Block(txs=[tx])],
+        post={},
+    )
+
+
+@EIPChecklist.GasRefundsChanges.Test.ExceptionalAbort.NonRevertable.InvalidOpcode()
+@pytest.mark.valid_from("Amsterdam")
+def test_auth_refund_persists_on_top_frame_invalid(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+) -> None:
+    """
+    Test auth existing-account refund persists when top frame hits INVALID.
+
+    Authorization existing-account refund is transaction-scoped: it
+    reduces intrinsic_state_gas before execution begins. When the
+    top-level call frame hits an invalid opcode, the auth refund was
+    already applied and is correctly reflected in receipt gas accounting.
+    """
+    gas_limit_cap = fork.transaction_gas_limit_cap()
+    assert gas_limit_cap is not None
+    auth_state_gas = fork.transaction_intrinsic_state_gas(
+        authorization_count=1,
+    )
+
+    # Contract hits INVALID immediately
+    contract = pre.deploy_contract(code=Op.INVALID)
+
+    # Existing signer — gets new-account state gas refunded
+    signer = pre.fund_eoa()
+    authorization_list = [
+        AuthorizationTuple(
+            address=contract,
+            nonce=0,
+            signer=signer,
+        ),
+    ]
+
+    sender = pre.fund_eoa()
+    tx = Transaction(
+        to=contract,
+        gas_limit=gas_limit_cap + auth_state_gas,
+        authorization_list=authorization_list,
+        sender=sender,
+    )
+
+    blockchain_test(
+        pre=pre,
+        blocks=[Block(txs=[tx])],
+        post={},
+    )

@@ -26,6 +26,7 @@ from execution_testing import (
     Storage,
     Transaction,
 )
+from execution_testing.checklists import EIPChecklist
 
 from .spec import ref_spec_8037
 
@@ -33,6 +34,7 @@ REFERENCE_SPEC_GIT_PATH = ref_spec_8037.git_path
 REFERENCE_SPEC_VERSION = ref_spec_8037.version
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_child_call_uses_reservoir(
     state_test: StateTestFiller,
@@ -79,6 +81,7 @@ def test_child_call_uses_reservoir(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasRefundsChanges.Test.ExceptionalAbort.Revertable.Revert()
 @pytest.mark.valid_from("Amsterdam")
 def test_reservoir_returned_on_revert(
     state_test: StateTestFiller,
@@ -118,6 +121,7 @@ def test_reservoir_returned_on_revert(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasRefundsChanges.Test.ExceptionalAbort.Revertable.OutOfGas()
 @pytest.mark.valid_from("Amsterdam")
 def test_reservoir_returned_on_oog(
     state_test: StateTestFiller,
@@ -158,6 +162,7 @@ def test_reservoir_returned_on_oog(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasRefundsChanges.Test.ExceptionalAbort.Revertable.Revert()
 @pytest.mark.valid_from("Amsterdam")
 def test_reservoir_restored_after_child_spill_and_revert(
     state_test: StateTestFiller,
@@ -207,6 +212,7 @@ def test_reservoir_restored_after_child_spill_and_revert(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasRefundsChanges.Test.ExceptionalAbort.Revertable.InvalidOpcode()
 @pytest.mark.valid_from("Amsterdam")
 def test_reservoir_restored_after_child_spill_and_halt(
     state_test: StateTestFiller,
@@ -254,6 +260,7 @@ def test_reservoir_restored_after_child_spill_and_halt(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasRefundsChanges.Test.ExceptionalAbort.Revertable.Revert()
 @pytest.mark.valid_from("Amsterdam")
 def test_reservoir_restored_after_child_full_drain_and_revert(
     state_test: StateTestFiller,
@@ -294,6 +301,7 @@ def test_reservoir_restored_after_child_full_drain_and_revert(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasRefundsChanges.Test.ExceptionalAbort.Revertable.Revert()
 @pytest.mark.valid_from("Amsterdam")
 def test_sequential_calls_reservoir_restored_between_reverts(
     state_test: StateTestFiller,
@@ -339,6 +347,7 @@ def test_sequential_calls_reservoir_restored_between_reverts(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_nested_calls_reservoir_passing(
     state_test: StateTestFiller,
@@ -389,6 +398,7 @@ def test_nested_calls_reservoir_passing(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_call_value_transfer_new_account(
     state_test: StateTestFiller,
@@ -431,6 +441,7 @@ def test_call_value_transfer_new_account(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_call_value_transfer_existing_account_no_state_gas(
     state_test: StateTestFiller,
@@ -469,6 +480,7 @@ def test_call_value_transfer_existing_account_no_state_gas(
     state_test(pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_child_state_gas_tracked_in_parent(
     state_test: StateTestFiller,
@@ -520,6 +532,7 @@ def test_child_state_gas_tracked_in_parent(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_delegatecall_reservoir_passing(
     state_test: StateTestFiller,
@@ -559,6 +572,7 @@ def test_delegatecall_reservoir_passing(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_staticcall_passes_reservoir(
     state_test: StateTestFiller,
@@ -601,6 +615,7 @@ def test_staticcall_passes_reservoir(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_gas_opcode_excludes_reservoir(
     state_test: StateTestFiller,
@@ -652,6 +667,7 @@ def test_gas_opcode_excludes_reservoir(
         pytest.param(False, id="new_account"),
     ],
 )
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_call_insufficient_balance_returns_reservoir(
     state_test: StateTestFiller,
@@ -706,6 +722,7 @@ def test_call_insufficient_balance_returns_reservoir(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_create_insufficient_balance_returns_reservoir(
     state_test: StateTestFiller,
@@ -748,6 +765,57 @@ def test_create_insufficient_balance_returns_reservoir(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@EIPChecklist.GasRefundsChanges.Test.ExceptionalAbort.Revertable.UpperRevert()
+@pytest.mark.valid_from("Amsterdam")
+def test_upper_frame_revert_restores_child_state_gas(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+) -> None:
+    """
+    Test state gas restored when upper call frame reverts after child success.
+
+    Entry calls mid, mid calls child. Child performs SSTORE (consuming
+    state gas from reservoir) and returns successfully. Mid then REVERTs,
+    rolling back child's state changes. Entry can use the restored
+    reservoir for its own SSTORE, proving the state gas was recovered.
+    """
+    gas_limit_cap = fork.transaction_gas_limit_cap()
+    assert gas_limit_cap is not None
+    env = Environment()
+    sstore_state_gas = fork.sstore_state_gas()
+
+    # Child: performs SSTORE then returns
+    child = pre.deploy_contract(
+        code=Op.SSTORE(0, 1),
+    )
+
+    # Mid: calls child (succeeds), then REVERTs
+    mid = pre.deploy_contract(
+        code=(Op.POP(Op.CALL(gas=100_000, address=child)) + Op.REVERT(0, 0)),
+    )
+
+    # Entry: calls mid (which reverts), then does SSTORE
+    entry_storage = Storage()
+    entry = pre.deploy_contract(
+        code=(
+            Op.POP(Op.CALL(gas=200_000, address=mid))
+            + Op.SSTORE(entry_storage.store_next(1), 1)
+        ),
+    )
+
+    tx = Transaction(
+        to=entry,
+        gas_limit=gas_limit_cap + sstore_state_gas,
+        sender=pre.fund_eoa(),
+    )
+
+    # Entry's SSTORE succeeds because mid's revert restored the reservoir
+    post = {entry: Account(storage=entry_storage)}
+    state_test(env=env, pre=pre, post=post, tx=tx)
+
+
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Amsterdam")
 def test_call_stack_depth_returns_reservoir(
     state_test: StateTestFiller,
